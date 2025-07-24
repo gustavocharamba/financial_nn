@@ -1,6 +1,6 @@
 import pandas as pd
 
-def btc_classification(df, time=7, ref=0.05):
+def btc_classification(df, time=3, ref=0.0475):
     var_perc = (df['Close'].shift(-time) - df['Close']) / df['Close']
 
     def classify_trend(x):
