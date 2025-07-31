@@ -3,12 +3,10 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, accuracy_score
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-from model.nn_model import build_model
+from model.nn_model import nn_model
 from indicators.technical_indicators import add_technical_indicators
 from load_datasets import load_financial_datasets
 from classifications.class_bitcoin import btc_classification
-import joblib
-import os
 from datetime import datetime
 
 
@@ -134,7 +132,7 @@ class RollingWindowValidator:
         X_test_scaled = scaler.transform(X_test)
 
         # Modelo otimizado para validação temporal
-        model = build_model(input_shape=X_train.shape[1], complexity='medium')
+        model = nn_model(input_shape=X_train.shape[1])
 
         # Callbacks otimizados para dados financeiros
         early_stop = EarlyStopping(
@@ -303,32 +301,7 @@ class RollingWindowValidator:
         target_names = ['Tendência Baixa', 'Tendência Alta', 'Tendência Média']
         print(classification_report(all_y_true, all_y_pred, target_names=target_names))
 
-        # Salvar resultados
-        self._save_validation_results(analysis)
-
         return analysis
-
-    def _save_validation_results(self, analysis):
-        """Salva resultados da validação"""
-
-        os.makedirs("saved_models", exist_ok=True)
-
-        # Salvar análise completa
-        results_data = {
-            'analysis': analysis,
-            'fold_results': self.results,
-            'parameters': {
-                'window_size': self.window_size,
-                'step_size': self.step_size,
-                'min_test_size': self.min_test_size
-            },
-            'timestamp': datetime.now().isoformat()
-        }
-
-        results_path = "saved_models/rolling_window_validation.pkl"
-        joblib.dump(results_data, results_path)
-
-        print(f"\n💾 Resultados salvos em: {results_path}")
 
     def get_performance_summary(self):
         """Retorna resumo de performance"""
