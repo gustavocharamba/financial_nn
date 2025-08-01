@@ -8,21 +8,15 @@ def nn_model(input_shape):
 
     model = Sequential([
         Input(shape=(input_shape,)),
+        Dense(1024, activation='relu'),
+        Dropout(0.5),
         Dense(512, activation='relu'),
         Dropout(0.45),
         Dense(256, activation='relu'),
         Dropout(0.4),
-        Dense(128, activation='relu'),
-        Dropout(0.35),
         Dense(3, activation='softmax')
     ])
+    optimizer = Adam(learning_rate=0.0005)
 
-    optimizer = Adam(learning_rate=0.00001)
-
-    model.compile(
-        optimizer=optimizer,
-        loss='sparse_categorical_crossentropy',
-        metrics=['accuracy']
-    )
-
+    model.compile(optimizer=optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     return model

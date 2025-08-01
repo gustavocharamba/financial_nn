@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def getBollingerBands(history, window=20, num_std=2):
+def getBollinger(history, window=20, num_std=2):
     rolling_mean = history['Close'].rolling(window=window).mean()
     rolling_std = history['Close'].rolling(window=window).std()
 

@@ -38,6 +38,7 @@ def load_financial_datasets(market):
     sp500 = pd.read_csv(os.path.join(base_path, "data/SP500.csv"), parse_dates=["Date"], index_col="Date")
     nasdaq = pd.read_csv(os.path.join(base_path, "data/NASDAQ.csv"), parse_dates=["Date"], index_col="Date")
     bitcoin = pd.read_csv(os.path.join(base_path, "data/BTCUSD.csv"), parse_dates=["Date"], index_col="Date")
+    bitcoin = bitcoin.drop(columns=["Unix", "Symbol", "VolumeBTC"])
 
     if market == "SP500":
         df_sp500 = pd.concat(economic_dfs + [sp500], axis=1, join="outer")

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def getParabolicSAR(history, step=0.02, max_step=0.2):
+def getPSAR(history, step=0.02, max_step=0.2):
     high = history['High'].values
     low = history['Low'].values
     close = history['Close'].values
