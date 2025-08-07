@@ -13,7 +13,7 @@ from indicators.sma import getSMA
 from indicators.stochastic import getStochastic
 from indicators.vwap import getVWAP
 
-def load_indicators(market):
+def load_indicators_datasets(market):
     base_path = os.path.dirname(__file__)
 
     if market == "SP500":

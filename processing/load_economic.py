@@ -5,39 +5,39 @@ def load_economic_datasets(market):
     base_path = os.path.dirname(__file__)
 
     # CPI (Consumer Price Index)
-    cpi = pd.read_csv(os.path.join(base_path, "data/CPI.csv"), parse_dates=["Date"], index_col="Date")
-    cpiCore = pd.read_csv(os.path.join(base_path, "data/CPICore.csv"), parse_dates=["Date"], index_col="Date")
+    cpi = pd.read_csv(os.path.join(base_path, "../data/CPI.csv"), parse_dates=["Date"], index_col="Date")
+    cpiCore = pd.read_csv(os.path.join(base_path, "../data/CPICore.csv"), parse_dates=["Date"], index_col="Date")
 
     # PPI (Producer Price Index)
-    ppi = pd.read_csv(os.path.join(base_path, "data/PPI.csv"), parse_dates=["Date"], index_col="Date")
+    ppi = pd.read_csv(os.path.join(base_path, "../data/PPI.csv"), parse_dates=["Date"], index_col="Date")
 
     # IPI ( Industrial Production Index)
-    ipi = pd.read_csv(os.path.join(base_path, "data/IPI.csv"), parse_dates=["Date"], index_col="Date")
+    ipi = pd.read_csv(os.path.join(base_path, "../data/IPI.csv"), parse_dates=["Date"], index_col="Date")
 
     # Payroll and Unemployment
-    payroll = pd.read_csv(os.path.join(base_path, "data/Payroll.csv"), parse_dates=["Date"], index_col="Date")
-    unemploy = pd.read_csv(os.path.join(base_path, "data/Unemployment.csv"), parse_dates=["Date"], index_col="Date")
+    payroll = pd.read_csv(os.path.join(base_path, "../data/Payroll.csv"), parse_dates=["Date"], index_col="Date")
+    unemploy = pd.read_csv(os.path.join(base_path, "../data/Unemployment.csv"), parse_dates=["Date"], index_col="Date")
 
     # Yields
-    yield5 = pd.read_csv(os.path.join(base_path, "data/Yield5.csv"), parse_dates=["Date"], index_col="Date")
-    yield10 = pd.read_csv(os.path.join(base_path, "data/Yield10.csv"), parse_dates=["Date"], index_col="Date")
-    yield30 = pd.read_csv(os.path.join(base_path, "data/Yield30.csv"), parse_dates=["Date"], index_col="Date")
+    yield5 = pd.read_csv(os.path.join(base_path, "../data/Yield5.csv"), parse_dates=["Date"], index_col="Date")
+    yield10 = pd.read_csv(os.path.join(base_path, "../data/Yield10.csv"), parse_dates=["Date"], index_col="Date")
+    yield30 = pd.read_csv(os.path.join(base_path, "../data/Yield30.csv"), parse_dates=["Date"], index_col="Date")
 
     # Interest Rates
-    rates = pd.read_csv(os.path.join(base_path, "data/FEDRates.csv"), parse_dates=["Date"], index_col="Date")
+    rates = pd.read_csv(os.path.join(base_path, "../data/FEDRates.csv"), parse_dates=["Date"], index_col="Date")
 
     # Monetary Aggregates (M1 - Narrow Money) (M2 - Broad Money)
-    m1 = pd.read_csv(os.path.join(base_path, "data/M1.csv"), parse_dates=["Date"], index_col="Date")
-    m2 = pd.read_csv(os.path.join(base_path, "data/M2.csv"), parse_dates=["Date"], index_col="Date")
+    m1 = pd.read_csv(os.path.join(base_path, "../data/M1.csv"), parse_dates=["Date"], index_col="Date")
+    m2 = pd.read_csv(os.path.join(base_path, "../data/M2.csv"), parse_dates=["Date"], index_col="Date")
 
     # Economic Columns
     economic_dfs = [cpi, cpiCore, ppi, ipi, payroll, unemploy, yield5, yield10, yield30, rates, m1, m2]
     economic_cols = [col for df in economic_dfs for col in df.columns]
 
     # SP500, Nasdaq, Bitcoin (Daily)
-    sp500 = pd.read_csv(os.path.join(base_path, "data/SP500.csv"), parse_dates=["Date"], index_col="Date")
-    nasdaq = pd.read_csv(os.path.join(base_path, "data/NASDAQ.csv"), parse_dates=["Date"], index_col="Date")
-    bitcoin = pd.read_csv(os.path.join(base_path, "data/BTCUSD.csv"), parse_dates=["Date"], index_col="Date")
+    sp500 = pd.read_csv(os.path.join(base_path, "../data/SP500.csv"), parse_dates=["Date"], index_col="Date")
+    nasdaq = pd.read_csv(os.path.join(base_path, "../data/NASDAQ.csv"), parse_dates=["Date"], index_col="Date")
+    bitcoin = pd.read_csv(os.path.join(base_path, "../data/BTCUSD.csv"), parse_dates=["Date"], index_col="Date")
     bitcoin = bitcoin.drop(columns=["Unix", "Symbol", "VolumeBTC"])
 
     if market == "SP500":
