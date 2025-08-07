@@ -19,10 +19,9 @@ def getPSAR(history, step=0.02, max_step=0.2):
         prev_ep = ep
         prev_trend = up_trend[i-1]
 
-        # Calcula SAR base
+        # Cálculo do SAR
         if prev_trend:
             sar[i] = prev_sar + prev_af * (prev_ep - prev_sar)
-            # Checa reversão com Close: se Close < SAR ou Low < SAR
             if close[i] < sar[i] or low[i] < sar[i]:
                 up_trend[i] = False
                 sar[i] = prev_ep
@@ -31,13 +30,9 @@ def getPSAR(history, step=0.02, max_step=0.2):
             else:
                 up_trend[i] = True
                 ep = max(prev_ep, high[i])
-                if ep > prev_ep:
-                    af[i] = min(prev_af + step, max_step)
-                else:
-                    af[i] = prev_af
+                af[i] = min(prev_af + step, max_step) if ep > prev_ep else prev_af
         else:
             sar[i] = prev_sar + prev_af * (prev_ep - prev_sar)
-            # Checa reversão com Close: se Close > SAR ou High > SAR
             if close[i] > sar[i] or high[i] > sar[i]:
                 up_trend[i] = True
                 sar[i] = prev_ep
@@ -46,9 +41,6 @@ def getPSAR(history, step=0.02, max_step=0.2):
             else:
                 up_trend[i] = False
                 ep = min(prev_ep, low[i])
-                if ep < prev_ep:
-                    af[i] = min(prev_af + step, max_step)
-                else:
-                    af[i] = prev_af
+                af[i] = min(prev_af + step, max_step) if ep < prev_ep else prev_af
 
-    history['Parabolic_SAR'] = sar
+    return pd.DataFrame({'PSAR': sar}, index=history.index)

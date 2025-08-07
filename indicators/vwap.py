@@ -8,4 +8,6 @@ def getVWAP(history):
     cum_typical_volume = (typical_price * volume).cumsum()
     cum_volume = volume.cumsum()
 
-    history['VWAP'] = cum_typical_volume / cum_volume
+    vwap = cum_typical_volume / cum_volume
+
+    return pd.DataFrame({'VWAP': vwap}, index=history.index)

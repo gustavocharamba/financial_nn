@@ -5,5 +5,10 @@ def getMACD(history):
     ema_12 = history['Close'].ewm(span=12, adjust=False).mean()
     ema_26 = history['Close'].ewm(span=26, adjust=False).mean()
 
-    history['MACD'] = ema_12 - ema_26
-    history['MACD_Signal'] = history['MACD'].ewm(span=9, adjust=False).mean()
+    macd = ema_12 - ema_26
+    signal = macd.ewm(span=9, adjust=False).mean()
+
+    return pd.DataFrame({
+        'MACD': macd,
+        'MACD_Signal': signal
+    }, index=history.index)

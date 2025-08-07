@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-def load_financial_datasets(market):
+def load_economic_datasets(market):
     base_path = os.path.dirname(__file__)
 
     # CPI (Consumer Price Index)
@@ -34,7 +34,7 @@ def load_financial_datasets(market):
     economic_dfs = [cpi, cpiCore, ppi, ipi, payroll, unemploy, yield5, yield10, yield30, rates, m1, m2]
     economic_cols = [col for df in economic_dfs for col in df.columns]
 
-    # SP500, Nasdaq, Bitcoin (Monthly)
+    # SP500, Nasdaq, Bitcoin (Daily)
     sp500 = pd.read_csv(os.path.join(base_path, "data/SP500.csv"), parse_dates=["Date"], index_col="Date")
     nasdaq = pd.read_csv(os.path.join(base_path, "data/NASDAQ.csv"), parse_dates=["Date"], index_col="Date")
     bitcoin = pd.read_csv(os.path.join(base_path, "data/BTCUSD.csv"), parse_dates=["Date"], index_col="Date")

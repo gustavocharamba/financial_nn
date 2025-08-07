@@ -13,4 +13,4 @@ def getATR(history, period=14):
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     atr = tr.ewm(span=period, adjust=False).mean()
 
-    history['ATR'] = atr
+    return pd.DataFrame({"ATR": atr}, index=history.index)

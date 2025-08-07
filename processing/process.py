@@ -7,8 +7,8 @@ def process_data(df, test_size=0.2, random_state=42, scale=True):
         df = df.drop('Date', axis=1)
 
     # Separar features e target
-    y = df["Trend"]
-    X = df.drop("Trend", axis=1)
+    y = df["Target"]
+    X = df.drop("Target", axis=1)
 
     # Divisão treino/teste
     X_train, X_test, y_train, y_test = train_test_split(
