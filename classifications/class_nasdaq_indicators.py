@@ -1,6 +1,6 @@
 import pandas as pd
 
-def nasdaq_classification_indicators(df, time=5, ref=0.025):
+def nasdaq_classification_indicators(df, time=5, ref=0.04):
     var_perc = (df['Close'].shift(-time) - df['Close']) / df['Close']
 
     def classify_trend(x):

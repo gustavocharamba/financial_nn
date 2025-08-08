@@ -6,29 +6,34 @@ def getADX(history, period=14):
     low = history['Low']
     close = history['Close']
 
-    # Calcula as diferenças direcional positivas e negativas
-    plus_dm = high.diff()
-    minus_dm = low.diff()
+    # Diferenças de alta e baixa
+    up_move = high.diff()
+    down_move = low.diff().abs()
 
-    plus_dm = np.where((plus_dm > minus_dm) & (plus_dm > 0), plus_dm, 0)
-    minus_dm = np.where((minus_dm > plus_dm) & (minus_dm > 0), -minus_dm, 0)
+    # Ajuste para evitar arrays 2D
+    up_move = np.ravel(up_move.values) if hasattr(up_move, "values") else np.ravel(up_move)
+    down_move = np.ravel(down_move.values) if hasattr(down_move, "values") else np.ravel(down_move)
+
+    plus_dm = np.where((up_move > down_move) & (up_move > 0), up_move, 0)
+    minus_dm = np.where((down_move > up_move) & (down_move > 0), down_move, 0)
 
     # True Range (TR)
     tr1 = high - low
     tr2 = (high - close.shift()).abs()
     tr3 = (low - close.shift()).abs()
-
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
 
     # Average True Range (ATR)
-    atr = pd.Series(tr, index=history.index).ewm(span=period, adjust=False).mean()
+    atr = tr.ewm(span=period, adjust=False).mean()
 
-    # Direcional Indicators (DI)
-    plus_di = 100 * pd.Series(plus_dm, index=history.index).ewm(span=period, adjust=False).mean() / atr
-    minus_di = 100 * pd.Series(minus_dm, index=history.index).ewm(span=period, adjust=False).mean() / atr
+    # Criar pandas Series unidimensionais para movimentos direcionais exponenciais
+    plus_di_ewm = pd.Series(plus_dm, index=history.index).ewm(span=period, adjust=False).mean()
+    minus_di_ewm = pd.Series(minus_dm, index=history.index).ewm(span=period, adjust=False).mean()
 
-    # DX e ADX
-    dx = (abs(plus_di - minus_di) / (plus_di + minus_di)) * 100
+    plus_di = 100 * plus_di_ewm / atr
+    minus_di = 100 * minus_di_ewm / atr
+
+    dx = 100 * (abs(plus_di - minus_di) / (plus_di + minus_di))
     adx = dx.ewm(span=period, adjust=False).mean()
 
     return pd.DataFrame({

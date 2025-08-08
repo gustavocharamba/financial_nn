@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 
 def getPSAR(history, step=0.02, max_step=0.2):
-    high = history['High'].values
-    low = history['Low'].values
-    close = history['Close'].values
+    high = history['High'].values.flatten()
+    low = history['Low'].values.flatten()
+    close = history['Close'].values.flatten()
     length = len(history)
 
     sar = np.zeros(length)
@@ -42,5 +42,7 @@ def getPSAR(history, step=0.02, max_step=0.2):
                 up_trend[i] = False
                 ep = min(prev_ep, low[i])
                 af[i] = min(prev_af + step, max_step) if ep < prev_ep else prev_af
+
+    sar = sar.flatten() if hasattr(sar, 'flatten') else sar
 
     return pd.DataFrame({'PSAR': sar}, index=history.index)

@@ -37,18 +37,18 @@ def load_indicators_datasets(market):
 
     # Calcula os indicadores
     adx        = getADX(df)
-    atr        = getATR(df)
+    #atr        = getATR(df)
     bollinger  = getBollinger(df)
     macd       = getMACD(df)
-    obv        = getOBV(df)
-    psar       = getPSAR(df)
+    #obv        = getOBV(df)
+    #psar       = getPSAR(df)
     rsi        = getRSI(df)
     sma        = getSMA(df)
     stochastic = getStochastic(df)
-    vwap       = getVWAP(df)
+    #vwap       = getVWAP(df)
 
     # Junta os indicadores
-    indicators_dfs = [adx, atr, bollinger, macd, obv, psar, rsi, sma, stochastic, vwap]
+    indicators_dfs = [adx, bollinger, macd, rsi, sma, stochastic]
     indicators_cols = [col for indi_df in indicators_dfs for col in indi_df.columns]
 
     df_full = pd.concat([df] + indicators_dfs, axis=1)

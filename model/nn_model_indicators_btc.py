@@ -3,20 +3,17 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.optimizers import Adam
 
-
 def nn_model(input_shape):
-
     model = Sequential([
         Input(shape=(input_shape,)),
-        Dense(1024, activation='relu'),
-        Dropout(0.5),
         Dense(512, activation='relu'),
         Dropout(0.45),
         Dense(256, activation='relu'),
         Dropout(0.4),
-        Dense(3, activation='softmax')
+        Dense(128, activation='relu'),
+        Dropout(0.35),
+        Dense(1, activation='sigmoid')
     ])
-    optimizer = Adam(learning_rate=0.0005)
-
-    model.compile(optimizer=optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    optimizer = Adam(learning_rate=0.0001)
+    model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
     return model
